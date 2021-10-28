@@ -1,9 +1,9 @@
 ﻿#Requires -RunAsAdministrator
 
-function Check-Administrator  
-{  
+function Check-Administrator
+{
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
-    (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)  
+    (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
 }
 
 function Get-ScriptName {
@@ -13,7 +13,7 @@ function Get-ScriptName {
 
 function Write-Usage {
   $Program = Get-ScriptName
-  Write-Output "$($Program) -Status <arg>" 
+  Write-Output "$($Program) -Status <arg>"
   Write-Output "   -Status [enabled|disabled]    Enable or Disable the touchscreen"
   Write-Host -NoNewLine 'Press any key to continue...';
   $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
@@ -49,7 +49,7 @@ function Enable-Touchscreen {
 }
 
 function Toggle-Touchscreen {
- 
+
        [CmdletBinding()]
         param
         (
@@ -70,7 +70,7 @@ function Toggle-Touchscreen {
         $HIDs = Get-PnpDevice -Class HIDClass
         $TS = $HIDS | Where-Object -FilterScript {$_.FriendlyName -EQ 'HID-compliant touch screen'}
 
-        # If more then one touchscreen        
+        # If more than one touchscreen
         if($TS -is [array]) {
             # enable each one
             if($stub -eq 'en') {
@@ -91,7 +91,7 @@ function Toggle-Touchscreen {
             # enable it
             if($stub -eq 'en') {
                 Enable-Touchscreen -InstanceId $TS.InstanceId
-            } 
+            }
             # disable it
             elseif($stub -eq 'di') {
                 Disable-Touchscreen -InstanceId $TS.InstanceId
